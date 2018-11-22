@@ -18,10 +18,10 @@ public class JokeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_joke);
 
         Intent openJokes = getIntent();
-        String[] categoryContent = openJokes.getStringArrayExtra("DEVELOPER_ARRAY");
+        ArrayList<String> categoryContentList = openJokes.getStringArrayListExtra("DEVELOPER_ARRAY");
         ListView jokeLV = findViewById(R.id.jokeListView);
 
-        ArrayList<String> categoryContentList = new ArrayList<>(Arrays.asList(categoryContent));
+
 
         ArrayAdapter<String> jokeAdapter = new ArrayAdapter<>(this,R.layout.joke_item,R.id.jokeTextView, categoryContentList);
         jokeLV.setAdapter(jokeAdapter);

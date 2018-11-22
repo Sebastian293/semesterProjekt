@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
+    private CategoryAdapter jokesAdapter;
+    private ArrayList<String> jokesContentList;
+    private ListView jokesListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +24,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ListView categoryList = findViewById(R.id.category_list);
-        String[] categories = {"developer", "movies", "food"};
+        final String[] categories = {"developer", "movies", "food"};
+
+
 
 
         ArrayList<String> categoryNames = new ArrayList<>(Arrays.asList(categories));
@@ -38,6 +43,22 @@ public class MainActivity extends AppCompatActivity {
                     openJokes.putExtra("DEVELOPER_ARRAY", DataContainer.createData());
                     startActivity(openJokes);
                 }else{
+                    if(jokesContentList == null) {
+                        jokesContentList = DataContainer.createData();
+                    }else{
+                        jokesContentList.add("Example");
+                    }
+                    if(jokesListView == null){
+                        jokesListView = findViewById(R.id.jokeListView);
+                    }
+                    if (jokesAdapter == null) {
+                        jokesAdapter = new CategoryAdapter(getApplicationContext(), jokesContentList);
+                        jokesListView.setAdapter(jokesAdapter);
+                    }
+
+
+                    jokesAdapter.updateData(jokesContentList);
+
 
                 }
             }
@@ -45,10 +66,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static class DataContainer {
-        public static String[] createData() {
-            String[] data = new String[100];
+        public static ArrayList<String> createData() {
+            ArrayList<String> data = new ArrayList<>();
             for (int i = 0; i < 100; i++) {
-                data[i] = "Testdaten " + i;
+                data.add("Testdaten " + i);
             }
 
             return data;
