@@ -33,6 +33,21 @@ public class CategoriesFragment extends Fragment {
 
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(new Category("animals"));
+        categoryList.add(new Category("career"));
+        categoryList.add(new Category("celebrity"));
+        categoryList.add(new Category("chuck"));
+        categoryList.add(new Category("animals"));
+        categoryList.add(new Category("developer"));
+        categoryList.add(new Category("food"));
+        categoryList.add(new Category("history"));
+        categoryList.add(new Category("money"));
+        categoryList.add(new Category("movie"));
+        categoryList.add(new Category("music"));
+        categoryList.add(new Category("politics"));
+        categoryList.add(new Category("religion"));
+        categoryList.add(new Category("science"));
+        categoryList.add(new Category("sport"));
+        categoryList.add(new Category("travel"));
 
         CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), categoryList);
         categoryListView.setAdapter(categoryAdapter);
