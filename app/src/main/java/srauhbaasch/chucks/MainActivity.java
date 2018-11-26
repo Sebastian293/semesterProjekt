@@ -6,15 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
-    private CategoryAdapter jokesAdapter;
+    private JokesAdapter jokesAdapter;
     private ArrayList<String> jokesContentList;
     private ListView jokesListView;
 
@@ -24,15 +21,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ListView categoryList = findViewById(R.id.category_list);
-        final String[] categories = {"developer", "movies", "food"};
-
-
-
-
-        ArrayList<String> categoryNames = new ArrayList<>(Arrays.asList(categories));
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, R.layout.category_item, R.id.textView, categoryNames);
-
-        categoryList.setAdapter(categoryAdapter);
 
 
         categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -52,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                         jokesListView = findViewById(R.id.jokeListView);
                     }
                     if (jokesAdapter == null) {
-                        jokesAdapter = new CategoryAdapter(getApplicationContext(), jokesContentList);
+                        jokesAdapter = new JokesAdapter(getApplicationContext(), jokesContentList);
                         jokesListView.setAdapter(jokesAdapter);
                     }
 

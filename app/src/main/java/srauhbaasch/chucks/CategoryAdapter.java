@@ -5,30 +5,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import srauhbaasch.chucks.R;
+public class CategoryAdapter extends BaseAdapter{
+    private Context context;
+    private List<Category> categoryList;
 
-public class CategoryAdapter extends BaseAdapter {
-    private ArrayList<String> dataList;
-    Context context;
-
-
-    public CategoryAdapter(Context context, ArrayList<String> dataList){
-        this.dataList = dataList;
+    public CategoryAdapter(Context context, List<Category> categoryList) {
         this.context = context;
+        this.categoryList = categoryList;
     }
 
     @Override
     public int getCount() {
-        return dataList.size();
+        return categoryList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return dataList.get(position);
+        return categoryList.get(position);
     }
 
     @Override
@@ -41,27 +39,38 @@ public class CategoryAdapter extends BaseAdapter {
         ViewHolder viewHolder;
 
         if(convertView == null){
+            //inflate layout
             LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.joke_item, parent, false);
+            convertView = inflater.inflate( R.layout.category_item, parent, false);
 
+            //set up ViewHolder
             viewHolder = new ViewHolder();
-            viewHolder.jokeTextView = convertView.findViewById(R.id.jokeTextView);
+            viewHolder.descriptionTV = convertView.findViewById(R.id.categoryText);
+            viewHolder.imageIV = convertView.findViewById(R.id.categoryImage);
 
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.jokeTextView.setText(dataList.get(position));
+
+
+        try {
+            viewHolder.descriptionTV.setText(categoryList.get(position).getStringId());
+            viewHolder.imageIV.setImageResource(categoryList.get(position).getImageId());
+        } catch (NoSuchFieldException e) {
+            viewHolder.descriptionTV.setText("Not Available");
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            viewHolder.descriptionTV.setText("Not Available");
+            e.printStackTrace();
+        }
 
         return convertView;
     }
 
-    public void updateData( ArrayList<String> newData){
-        dataList = newData;
-        this.notifyDataSetChanged();
-    }
-
-    static class ViewHolder{
-        public TextView jokeTextView;
+    static class ViewHolder {
+        TextView descriptionTV;
+        ImageView imageIV;
     }
 }
+

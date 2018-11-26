@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/fragment4"
-        android:name="srauhbaasch.chucks.CategogiesFragment"
+        android:name="srauhbaasch.chucks.CategoriesFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="5"

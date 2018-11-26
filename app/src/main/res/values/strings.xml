@@ -2,7 +2,8 @@
     <string name="app_name">Chucks</string>
 
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="yeah_tolles_fragment">yeah tolles fragment</string>
-    <string name="textview">TextView</string>
+   <string name="animals">Animals</string>
+    <string name="carreer">Career</string>
+    <string name="celebrity">Celebrities</string>
+    <string name="chuck">Chuck Only</string>
 </resources>
