@@ -60,7 +60,7 @@ public class CategoryAdapter extends BaseAdapter{
 
         try {
             viewHolder.descriptionTV.setText(categoryList.get(position).getStringId());
-            viewHolder.imageIV.setImageResource(categoryList.get(position).getImageId());
+            viewHolder.imageIV.setImageBitmap(ImageScaler.decodeSampledBitmapFromResource(context.getResources(), categoryList.get(position).getImageId(),55, 55));
         } catch (NoSuchFieldException e) {
             viewHolder.descriptionTV.setText(R.string.notAvailable);
             e.printStackTrace();
