@@ -53,6 +53,7 @@ public class CategoryAdapter extends BaseAdapter{
             viewHolder.imageIV = convertView.findViewById(R.id.categoryImage);
 
             convertView.setTag(viewHolder);
+            convertView.setBackgroundColor(position % 2 == 0 ? Color.WHITE : Color.LTGRAY);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
@@ -68,7 +69,7 @@ public class CategoryAdapter extends BaseAdapter{
             viewHolder.descriptionTV.setText("Not Available");
             e.printStackTrace();
         }
-        convertView.setBackgroundColor(position % 2 == 0 ? Color.WHITE : Color.LTGRAY);
+
         return convertView;
     }
 
