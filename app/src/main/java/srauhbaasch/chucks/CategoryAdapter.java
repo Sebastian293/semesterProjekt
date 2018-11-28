@@ -53,7 +53,6 @@ public class CategoryAdapter extends BaseAdapter{
             viewHolder.imageIV = convertView.findViewById(R.id.categoryImage);
 
             convertView.setTag(viewHolder);
-            convertView.setBackgroundColor(position % 2 == 0 ? Color.WHITE : Color.LTGRAY);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
@@ -63,13 +62,13 @@ public class CategoryAdapter extends BaseAdapter{
             viewHolder.descriptionTV.setText(categoryList.get(position).getStringId());
             viewHolder.imageIV.setImageResource(categoryList.get(position).getImageId());
         } catch (NoSuchFieldException e) {
-            viewHolder.descriptionTV.setText("Not Available");
+            viewHolder.descriptionTV.setText(R.string.notAvailable);
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-            viewHolder.descriptionTV.setText("Not Available");
+            viewHolder.descriptionTV.setText(R.string.notAvailable);
             e.printStackTrace();
         }
-
+        convertView.setBackgroundColor(position % 2 == 0 ? Color.WHITE : Color.LTGRAY);
         return convertView;
     }
 

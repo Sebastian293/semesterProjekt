@@ -16,4 +16,5 @@
     <string name="travel">Travel</string>
     <string name="science">Science</string>
     <string name="fashion">Fashion</string>
+    <string name="notAvailable">Not Available</string>
 </resources>
