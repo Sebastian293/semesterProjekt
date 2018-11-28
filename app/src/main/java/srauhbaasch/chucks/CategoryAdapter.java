@@ -1,6 +1,7 @@
 package srauhbaasch.chucks;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,10 +39,13 @@ public class CategoryAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
 
+
+
         if(convertView == null){
             //inflate layout
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate( R.layout.category_item, parent, false);
+
 
             //set up ViewHolder
             viewHolder = new ViewHolder();
@@ -64,7 +68,7 @@ public class CategoryAdapter extends BaseAdapter{
             viewHolder.descriptionTV.setText("Not Available");
             e.printStackTrace();
         }
-
+        convertView.setBackgroundColor(position % 2 == 0 ? Color.WHITE : Color.LTGRAY);
         return convertView;
     }
 
