@@ -30,13 +30,12 @@ public class MainActivity extends AppCompatActivity {
                     Intent openJokes = new Intent(getApplicationContext(), JokeActivity.class);
                     openJokes.putExtra("DEVELOPER_ARRAY", DataContainer.createData());
                     startActivity(openJokes);
-                }else{
-                    if(jokesContentList == null) {
-                        jokesContentList = DataContainer.createData();
-                    }else{
-                        jokesContentList.add("Example");
-                    }
-                    if(jokesListView == null){
+                } else {
+
+                    jokesContentList = DataContainer.createData();
+
+
+                    if (jokesListView == null) {
                         jokesListView = findViewById(R.id.jokeListView);
                     }
                     if (jokesAdapter == null) {
