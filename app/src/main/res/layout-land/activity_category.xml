@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    tools:context=".CategoryActivity">
+
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="srauhbaasch.chucks.CategoriesFragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        tools:layout="@layout/fragment_categogies" />
+
+    <fragment
+        android:id="@+id/jokeFragment"
+        android:name="srauhbaasch.chucks.JokesFragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="10"
+        tools:layout="@layout/fragment_jokes" />
+</LinearLayout>

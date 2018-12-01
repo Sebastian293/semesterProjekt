@@ -1,65 +1,27 @@
 package srauhbaasch.chucks;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-
-import java.util.ArrayList;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    private JokesAdapter jokesAdapter;
-    private ArrayList<String> jokesContentList;
-    private ListView jokesListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView categoryList = findViewById(R.id.category_list);
+        Button buttonRefresh = findViewById(R.id.refresh_joke);
+        Button butonOpenCategorys = findViewById(R.id.select_category);
 
-
-        categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        butonOpenCategorys.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    Intent openJokes = new Intent(getApplicationContext(), JokeActivity.class);
-                    openJokes.putExtra("DEVELOPER_ARRAY", DataContainer.createData());
-                    startActivity(openJokes);
-                } else {
-
-                    jokesContentList = DataContainer.createData();
-
-
-                    if (jokesListView == null) {
-                        jokesListView = findViewById(R.id.jokeListView);
-                    }
-                    if (jokesAdapter == null) {
-                        jokesAdapter = new JokesAdapter(getApplicationContext(), jokesContentList);
-                        jokesListView.setAdapter(jokesAdapter);
-                    }
-
-
-                    jokesAdapter.updateData(jokesContentList);
-
-
-                }
+            public void onClick(View v) {
+                Intent openJokes = new Intent(getApplicationContext(), CategoryActivity.class);
+                startActivity(openJokes);
             }
         });
-    }
-
-    private static class DataContainer {
-        public static ArrayList<String> createData() {
-            ArrayList<String> data = new ArrayList<>();
-            for (int i = 0; i < 100; i++) {
-                data.add("Testdaten " + i);
-            }
-
-            return data;
-        }
     }
 }
