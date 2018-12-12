@@ -17,6 +17,7 @@
     <string name="science">Science</string>
     <string name="fashion">Fashion</string>
     <string name="notAvailable">Not Available</string>
-    <string name="select_category">Categorie wählen</string>
-    <string name="refresh_joke">Refresh</string>
+    <string name="select_category">Select Category</string>
+    <string name="refresh_joke">Get new random Joke</string>
+    <string name="refresh">Refresh</string>
 </resources>

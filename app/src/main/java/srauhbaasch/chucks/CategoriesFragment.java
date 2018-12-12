@@ -1,11 +1,14 @@
 package srauhbaasch.chucks;
 
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -16,11 +19,18 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class CategoriesFragment extends Fragment {
+    private Fragment fragmentToUpdate;
 
 
     public CategoriesFragment() {
         // Required empty public constructor
     }
+
+
+    public void setFragmentToUpdate(Fragment fragmentToUpdate){
+        this.fragmentToUpdate = fragmentToUpdate;
+    }
+
 
 
     @Override
@@ -52,6 +62,21 @@ public class CategoriesFragment extends Fragment {
 
         CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), categoryList);
         categoryListView.setAdapter(categoryAdapter);
+
+        categoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    Intent openJokes = new Intent(getActivity(), JokeActivity.class);
+                    openJokes.putExtra("DEVELOPER_ARRAY", CategoryActivity.DataContainer.createData());
+                    startActivity(openJokes);
+                } else {
+                    if(fragmentToUpdate != null && fragmentToUpdate.getClass() == JokesFragment.class){
+                        ((JokesFragment)fragmentToUpdate).updateData();
+                    }
+                }
+            }
+        });
 
         return view;
     }
