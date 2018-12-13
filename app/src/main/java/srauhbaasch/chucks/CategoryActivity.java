@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class CategoryActivity extends AppCompatActivity {
+    private static String TAG = "MainActivity";
     private ListView jokesListView;
 
     @Override
@@ -41,7 +43,7 @@ public class CategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.refresh:
-                //TODO
+                startAddPlaceholderContentTask();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -56,8 +58,25 @@ public class CategoryActivity extends AppCompatActivity {
             for (int i = 0; i < 100; i++) {
                 data.add("Testdaten " + i);
             }
-
             return data;
         }
+
+        public static void addContent(String content){
+            if(content != null) {
+                dataList.add(content);
+            }
+        }
+    }
+
+    public void startAddPlaceholderContentTask(){
+        Log.d(TAG, "Attempting to start AddPlaceholderContentTask");
+        AddPlaceholderContentTask addPlaceholderContentTask = new AddPlaceholderContentTask(getApplicationContext());
+
+        Integer num = 100;
+        Integer increment = 2;
+        Integer sleep = 200;
+
+        addPlaceholderContentTask.execute(num, increment, sleep);
+        Log.d(TAG, "AddPlaceholderContentTask has been startde");
     }
 }

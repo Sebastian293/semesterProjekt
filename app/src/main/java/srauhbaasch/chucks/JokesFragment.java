@@ -38,9 +38,14 @@ public class JokesFragment extends Fragment {
     }
 
     public void updateData(){
-        jokesContentList = CategoryActivity.DataContainer.createData();
-        jokesContentList.addAll(CategoryActivity.DataContainer.createData());
-        jokesAdapter.updateData(jokesContentList);
+        if(CategoryActivity.DataContainer.dataList.isEmpty()) {
+            jokesContentList = CategoryActivity.DataContainer.createData();
+            jokesContentList.addAll(CategoryActivity.DataContainer.createData());
+            jokesAdapter.updateData(jokesContentList);
+        }else{
+            jokesContentList = CategoryActivity.DataContainer.dataList;
+            jokesAdapter.updateData(jokesContentList);
+        }
 
 
     }
