@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
 
     TextView mainPageJoke;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
                                     mainPageJoke.setText(R.string.JsonErrorMessage);
                                     e.printStackTrace();
                                 }
-
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -69,9 +67,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -84,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
                             mainPageJoke.setText(R.string.JsonErrorMessage);
                             e.printStackTrace();
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -94,6 +88,4 @@ public class MainActivity extends AppCompatActivity {
         });
         queue.add(stringRequest);
     }
-
-
 }
