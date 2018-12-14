@@ -68,11 +68,11 @@ public class CategoriesFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                     Intent openJokes = new Intent(getActivity(), JokeActivity.class);
-                    openJokes.putExtra("DEVELOPER_ARRAY", CategoryActivity.DataContainer.createData());
+                    openJokes.putExtra("DEVELOPER_ARRAY", CategoryActivity.DataContainer.dataList);
                     startActivity(openJokes);
                 } else {
                     if(fragmentToUpdate != null && fragmentToUpdate.getClass() == JokesFragment.class){
-                        ((JokesFragment)fragmentToUpdate).updateData();
+                        ((JokesFragment)fragmentToUpdate).updateAdapter();
                     }
                 }
             }

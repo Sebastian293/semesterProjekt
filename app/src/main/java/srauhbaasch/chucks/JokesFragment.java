@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
@@ -31,23 +32,19 @@ public class JokesFragment extends Fragment {
 
         ListView jokesListView = view.findViewById(R.id.jokeListView);
 
-        jokesAdapter = new JokesAdapter(getActivity(), new ArrayList<String>());
+        jokesAdapter = new JokesAdapter(getActivity(), CategoryActivity.DataContainer.dataList);
         jokesListView.setAdapter(jokesAdapter);
 
         return view;
     }
 
-    public void updateData(){
-        if(CategoryActivity.DataContainer.dataList.isEmpty()) {
-            jokesContentList = CategoryActivity.DataContainer.createData();
-            jokesContentList.addAll(CategoryActivity.DataContainer.createData());
-            jokesAdapter.updateData(jokesContentList);
-        }else{
-            jokesContentList = CategoryActivity.DataContainer.dataList;
-            jokesAdapter.updateData(jokesContentList);
-        }
-
-
+    public void updateAdapter() {
+        jokesAdapter.notifyDataSetChanged();
     }
 
+    public ProgressBar getProgressBar() {
+        return getView().findViewById(R.id.progressBar);
+    }
 }
+
+

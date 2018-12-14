@@ -20,4 +20,6 @@
     <string name="select_category">Select Category</string>
     <string name="refresh_joke">Get new random Joke</string>
     <string name="refresh">Refresh</string>
+    <string name="volleyErrorMessage">That didn\'t work!</string>
+    <string name="JsonErrorMessage">Error</string>
 </resources>

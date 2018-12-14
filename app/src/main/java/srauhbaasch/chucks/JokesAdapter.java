@@ -58,11 +58,6 @@ public class JokesAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void updateData( ArrayList<String> newData){
-        dataList = newData;
-        this.notifyDataSetChanged();
-    }
-
     static class ViewHolder{
         public TextView jokeTextView;
     }

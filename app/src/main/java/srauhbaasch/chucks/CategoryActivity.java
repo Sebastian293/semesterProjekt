@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class CategoryActivity extends AppCompatActivity {
     private static String TAG = "MainActivity";
-    private ListView jokesListView;
+    private JokesFragment jokesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +26,14 @@ public class CategoryActivity extends AppCompatActivity {
 
         CategoriesFragment categoryFragment = (CategoriesFragment)getSupportFragmentManager().findFragmentById(R.id.categoryFragment);
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            Fragment jokesFragment = getSupportFragmentManager().findFragmentById(R.id.jokeFragment);
+            jokesFragment =(JokesFragment) getSupportFragmentManager().findFragmentById(R.id.jokeFragment);
             categoryFragment.setFragmentToUpdate(jokesFragment);
         }
 
 
+    }
+    public boolean onPrepareOptionsMenu(Menu menu){
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
     @Override
@@ -43,7 +46,7 @@ public class CategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.refresh:
-                startAddPlaceholderContentTask();
+                startPlaceholderTask();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -53,13 +56,7 @@ public class CategoryActivity extends AppCompatActivity {
     public static class DataContainer {
         public static ArrayList<String> dataList = new ArrayList<>();
 
-        public static ArrayList<String> createData() {
-            ArrayList<String> data = new ArrayList<>();
-            for (int i = 0; i < 100; i++) {
-                data.add("Testdaten " + i);
-            }
-            return data;
-        }
+
 
         public static void addContent(String content){
             if(content != null) {
@@ -67,16 +64,15 @@ public class CategoryActivity extends AppCompatActivity {
             }
         }
     }
+    private void startPlaceholderTask() {
+        Log.d(TAG, "Attemting to start AsyncTaskExample");
 
-    public void startAddPlaceholderContentTask(){
-        Log.d(TAG, "Attempting to start AddPlaceholderContentTask");
-        AddPlaceholderContentTask addPlaceholderContentTask = new AddPlaceholderContentTask(getApplicationContext());
+        PlaceholderTask placeHolderTask = new PlaceholderTask(jokesFragment);
 
         Integer num = 100;
-        Integer increment = 2;
+        Integer increment = 1;
         Integer sleep = 200;
-
-        addPlaceholderContentTask.execute(num, increment, sleep);
-        Log.d(TAG, "AddPlaceholderContentTask has been startde");
+        placeHolderTask.execute(num, increment, sleep);
+        Log.d(TAG, "AsyncTask has been started");
     }
 }
