@@ -22,4 +22,9 @@
     <string name="refresh">Refresh</string>
     <string name="volleyErrorMessage">That didn\'t work!</string>
     <string name="JsonErrorMessage">Error</string>
+    <string name="mainpageimage">mainPageImage</string>
+    <string name="categories">Categories</string>
+    <string name="download_error">Download cancelled!</string>
+    <string name="download_success">The Download was successful!</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -9,26 +9,19 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import java.util.ArrayList;
-
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class JokesFragment extends Fragment {
     private JokesAdapter jokesAdapter;
-    private ArrayList<String> jokesContentList;
-
+    private ProgressBar progressBar;
 
     public JokesFragment() {
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_jokes, container, false);
+        progressBar = view.findViewById(R.id.progressBar);
 
         ListView jokesListView = view.findViewById(R.id.jokeListView);
 
@@ -41,9 +34,14 @@ public class JokesFragment extends Fragment {
     public void updateAdapter() {
         jokesAdapter.notifyDataSetChanged();
     }
-
-    public ProgressBar getProgressBar() {
-        return getView().findViewById(R.id.progressBar);
+    public void setProgressBar(int progress){
+        progressBar.setProgress(progress);
+    }
+    public void hideProgressBar(){
+        progressBar.setVisibility(View.GONE);
+    }
+    public void showProgressBar(){
+        progressBar.setVisibility(View.VISIBLE);
     }
 }
 

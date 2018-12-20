@@ -9,29 +9,30 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class JokeActivity extends AppCompatActivity {
+public class JokeActivity extends AppCompatActivity implements PlaceholderTask.PlaceholderTaskListener {
 
     private static final String TAG = "JokesActivity";
     private JokesFragment jokesFragment;
-
-
+    private PlaceholderTask placeHolderTask;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joke);
-
-        Intent openJokes = getIntent();
-        ArrayList<String> categoryContentList = openJokes.getStringArrayListExtra("DEVELOPER_ARRAY");
-        CategoryActivity.DataContainer.dataList.addAll(categoryContentList);
-
         jokesFragment =(JokesFragment) getSupportFragmentManager().findFragmentById(R.id.jokeFragment);
-        jokesFragment.updateAdapter();
-
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        cancelPlaceholderTask();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -42,7 +43,11 @@ public class JokeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.refresh:
+                cancelPlaceholderTask();
                 startPlaceholderTask();
+                return true;
+            case R.id.cancel:
+                cancelPlaceholderTask();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -51,12 +56,38 @@ public class JokeActivity extends AppCompatActivity {
     private void startPlaceholderTask() {
         Log.d(TAG, "Attemting to start AsyncTaskExample");
 
-        PlaceholderTask placeHolderTask = new PlaceholderTask(jokesFragment);
+        placeHolderTask = new PlaceholderTask(this);
 
         Integer num = 100;
         Integer increment = 1;
         Integer sleep = 200;
         placeHolderTask.execute(num, increment, sleep);
         Log.d(TAG, "AsyncTask has been started");
+    }
+    @Override
+    public void doAction(int progress) {
+        jokesFragment.setProgressBar(progress);
+        jokesFragment.updateAdapter();
+    }
+
+    @Override
+    public void setUp() {
+        jokesFragment.showProgressBar();
+    }
+
+    @Override
+    public void cleanUp(boolean result) {
+        jokesFragment.hideProgressBar();
+        if(result){
+            Toast.makeText(getApplicationContext(), R.string.download_success, Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(getApplicationContext(), R.string.download_error, Toast.LENGTH_SHORT).show();
+        }
+    }
+    private void cancelPlaceholderTask(){
+        if(placeHolderTask != null){
+            placeHolderTask.cancel(true);
+        }
     }
 }

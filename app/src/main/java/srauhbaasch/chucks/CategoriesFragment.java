@@ -14,28 +14,19 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class CategoriesFragment extends Fragment {
     private Fragment fragmentToUpdate;
 
-
     public CategoriesFragment() {
-        // Required empty public constructor
-    }
 
+    }
 
     public void setFragmentToUpdate(Fragment fragmentToUpdate){
         this.fragmentToUpdate = fragmentToUpdate;
     }
 
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_categogies, container, false);
 
@@ -59,7 +50,6 @@ public class CategoriesFragment extends Fragment {
         categoryList.add(new Category("sport"));
         categoryList.add(new Category("travel"));
 
-
         CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(), categoryList);
         categoryListView.setAdapter(categoryAdapter);
 
@@ -80,5 +70,4 @@ public class CategoriesFragment extends Fragment {
 
         return view;
     }
-
 }
