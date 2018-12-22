@@ -1,17 +1,17 @@
 <resources>
     <string name="app_name">Chucks</string>
-    <string name="animals">Animals</string>
+    <string name="animal">Animals</string>
     <string name="career">Career</string>
-    <string name="developer">Developer</string>
+    <string name="dev">Developer</string>
     <string name="food">Food</string>
     <string name="history">History</string>
     <string name="money">Money</string>
     <string name="movie">Movie</string>
     <string name="music">Music</string>
-    <string name="politics">Politics</string>
+    <string name="political">Politics</string>
     <string name="religion">Religion</string>
     <string name="celebrity">Celebrities</string>
-    <string name="chuck2">Chuck Only</string>
+    <string name="explicit">Chuck Only</string>
     <string name="sport">Sport</string>
     <string name="travel">Travel</string>
     <string name="science">Science</string>
@@ -27,4 +27,5 @@
     <string name="download_error">Download cancelled!</string>
     <string name="download_success">The Download was successful!</string>
     <string name="cancel">Cancel</string>
+    <string name="datalist_error_message">Daten konnten nicht geladen werden!</string>
 </resources>

@@ -33,18 +33,18 @@ public class CategoriesFragment extends Fragment {
         ListView categoryListView = view.findViewById(R.id.category_list);
 
         List<Category> categoryList = new ArrayList<>();
-        categoryList.add(new Category("animals"));
+        categoryList.add(new Category("animal"));
         categoryList.add(new Category("career"));
         categoryList.add(new Category("celebrity"));
-        categoryList.add(new Category("chuck2"));
-        categoryList.add(new Category("developer"));
+        categoryList.add(new Category("explicit"));
+        categoryList.add(new Category("dev"));
         categoryList.add(new Category("fashion"));
         categoryList.add(new Category("food"));
         categoryList.add(new Category("history"));
         categoryList.add(new Category("money"));
         categoryList.add(new Category("movie"));
         categoryList.add(new Category("music"));
-        categoryList.add(new Category("politics"));
+        categoryList.add(new Category("political"));
         categoryList.add(new Category("religion"));
         categoryList.add(new Category("science"));
         categoryList.add(new Category("sport"));
@@ -62,7 +62,9 @@ public class CategoriesFragment extends Fragment {
                     startActivity(openJokes);
                 } else {
                     if(fragmentToUpdate != null && fragmentToUpdate.getClass() == JokesFragment.class){
-                        ((JokesFragment)fragmentToUpdate).updateAdapter();
+                       //TODO REQUEST AUSFühren
+
+                        VolleyToChuck.getInstance(getContext()).addToRequestQueue(VolleyToChuck.addRequest(((Category)parent.getItemAtPosition(position)).getCategoryName()));
                     }
                 }
             }

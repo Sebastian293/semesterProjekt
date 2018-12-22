@@ -12,4 +12,8 @@ public class Category {
     public int getStringId () throws NoSuchFieldException, IllegalAccessException{
         return R.string.class.getField(categoryName).getInt(null);
     }
+
+    public String getCategoryName(){
+        return categoryName;
+    }
 }
