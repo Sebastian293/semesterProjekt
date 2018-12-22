@@ -14,7 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class JokeActivity extends AppCompatActivity implements PlaceholderTask.PlaceholderTaskListener {
+public class JokeActivity extends AppCompatActivity{
 
     private static final String TAG = "JokesActivity";
     private JokesFragment jokesFragment;
@@ -56,7 +56,7 @@ public class JokeActivity extends AppCompatActivity implements PlaceholderTask.P
     private void startPlaceholderTask() {
         Log.d(TAG, "Attemting to start AsyncTaskExample");
 
-        placeHolderTask = new PlaceholderTask(this);
+        placeHolderTask = new PlaceholderTask(getApplicationContext(), jokesFragment);
 
         Integer num = 100;
         Integer increment = 1;
@@ -64,27 +64,7 @@ public class JokeActivity extends AppCompatActivity implements PlaceholderTask.P
         placeHolderTask.execute(num, increment, sleep);
         Log.d(TAG, "AsyncTask has been started");
     }
-    @Override
-    public void doAction(int progress) {
-        jokesFragment.setProgressBar(progress);
-        jokesFragment.updateAdapter();
-    }
 
-    @Override
-    public void setUp() {
-        jokesFragment.showProgressBar();
-    }
-
-    @Override
-    public void cleanUp(boolean result) {
-        jokesFragment.hideProgressBar();
-        if(result){
-            Toast.makeText(getApplicationContext(), R.string.download_success, Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(getApplicationContext(), R.string.download_error, Toast.LENGTH_SHORT).show();
-        }
-    }
     private void cancelPlaceholderTask(){
         if(placeHolderTask != null){
             placeHolderTask.cancel(true);

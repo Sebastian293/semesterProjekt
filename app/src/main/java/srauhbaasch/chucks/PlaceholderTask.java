@@ -1,22 +1,36 @@
 package srauhbaasch.chucks;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
-public class PlaceholderTask extends AsyncTask<Integer, Integer, Boolean> {
+import java.lang.ref.WeakReference;
+
+public class PlaceholderTask extends AsyncTask<Integer, String, Boolean> {
 
     private static final String TAG = "AsyncTaskExample";
-    private PlaceholderTaskListener placeholderTaskListener;
+    private WeakReference<Context> context;
+    private WeakReference<JokesFragment> jokesFragment;
+    private WeakReference<ProgressBar> progressBar;
+    private int count;
 
-    public interface PlaceholderTaskListener {
-        void doAction(int progress);
-        void setUp();
-        void cleanUp(boolean result);
+
+    public PlaceholderTask(Context context, JokesFragment jokesFragment) {
+        this.context = new WeakReference<>(context);
+        this.jokesFragment = new WeakReference<>(jokesFragment);
+        this.progressBar = new WeakReference<>(jokesFragment.getProgressBar());
     }
 
-    public PlaceholderTask(PlaceholderTaskListener placeholderTaskListener) {
-        this.placeholderTaskListener = placeholderTaskListener;
+    @Override
+    public void onPreExecute() {
+        if(progressBar.get() != null) {
+            progressBar.get().setMax(100);
+            progressBar.get().setProgress(0);
+        }
     }
 
     @Override
@@ -26,29 +40,36 @@ public class PlaceholderTask extends AsyncTask<Integer, Integer, Boolean> {
             if (isCancelled()) {
                 return false;
             }
-            CategoryActivity.DataContainer.dataList.add ("Testjoke " + i);
-            publishProgress(i, listParameter[0]);
+            //progress = listParameter[0] * 100 / listParameter[1];
+            publishProgress("Testjoke " + i);
             SystemClock.sleep(listParameter[2]);
         }
         return true;
     }
 
     @Override
-    protected void onCancelled(){
+    protected void onCancelled() {
         super.onCancelled();
-        if (placeholderTaskListener != null){
-            placeholderTaskListener.cleanUp(false);
+        if (context.get() != null && progressBar.get() != null) {
+            progressBar.get().setVisibility(View.GONE);
+            Toast.makeText(context.get(), R.string.download_error, Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    protected void onProgressUpdate(Integer... progress) {
-        Log.v(TAG, String.format("onProgressUpdate(%d)", progress[0]));
-        if (placeholderTaskListener != null) {
-            if(progress[0]==0){
-                placeholderTaskListener.setUp();
-            }
-            placeholderTaskListener.doAction(progress[0]*100/progress[1]);
+    protected void onProgressUpdate(String... value) {
+        Log.v(TAG, String.format("onPostExecute(%d)", count));
+        if(count == 0 && progressBar.get() != null){
+            progressBar.get().setVisibility(View.VISIBLE);
+        }
+
+        if (jokesFragment.get() != null && progressBar.get() != null) {
+            CategoryActivity.DataContainer.dataList.add(value[0]);
+
+            jokesFragment.get().updateAdapter();
+            progressBar.get().setProgress(count);
+
+            count++;
         }
     }
 
@@ -56,8 +77,15 @@ public class PlaceholderTask extends AsyncTask<Integer, Integer, Boolean> {
     protected void onPostExecute(Boolean result) {
         super.onPostExecute(result);
         Log.v(TAG, String.format("onPostExecute(%b)", result));
-        if (placeholderTaskListener != null) {
-            placeholderTaskListener.cleanUp(result);
+        if (context.get() != null) {
+            if (result) {
+                Toast.makeText(context.get(), R.string.download_success, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context.get(), R.string.download_error, Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (progressBar.get() != null) {
+            progressBar.get().setVisibility(View.GONE);
         }
     }
 }

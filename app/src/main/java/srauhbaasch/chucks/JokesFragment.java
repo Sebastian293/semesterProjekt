@@ -34,7 +34,10 @@ public class JokesFragment extends Fragment {
     public void updateAdapter() {
         jokesAdapter.notifyDataSetChanged();
     }
-    public void setProgressBar(int progress){
+    public ProgressBar getProgressBar(){
+        return getView().findViewById(R.id.progressBar);
+    }
+   /* public void setProgressBar(int progress){
         progressBar.setProgress(progress);
     }
     public void hideProgressBar(){
@@ -43,6 +46,7 @@ public class JokesFragment extends Fragment {
     public void showProgressBar(){
         progressBar.setVisibility(View.VISIBLE);
     }
+    */
 }
 
 

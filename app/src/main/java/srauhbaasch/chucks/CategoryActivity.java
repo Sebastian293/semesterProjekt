@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class CategoryActivity extends AppCompatActivity implements PlaceholderTask.PlaceholderTaskListener{
+public class CategoryActivity extends AppCompatActivity {
     private static String TAG = "MainActivity";
     private JokesFragment jokesFragment;
     private PlaceholderTask placeHolderTask;
@@ -21,9 +21,9 @@ public class CategoryActivity extends AppCompatActivity implements PlaceholderTa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
-        CategoriesFragment categoryFragment = (CategoriesFragment)getSupportFragmentManager().findFragmentById(R.id.categoryFragment);
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            jokesFragment =(JokesFragment) getSupportFragmentManager().findFragmentById(R.id.jokeFragment);
+        CategoriesFragment categoryFragment = (CategoriesFragment) getSupportFragmentManager().findFragmentById(R.id.categoryFragment);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            jokesFragment = (JokesFragment) getSupportFragmentManager().findFragmentById(R.id.jokeFragment);
             categoryFragment.setFragmentToUpdate(jokesFragment);
         }
     }
@@ -34,7 +34,7 @@ public class CategoryActivity extends AppCompatActivity implements PlaceholderTa
         cancelPlaceholderTask();
     }
 
-    public boolean onPrepareOptionsMenu(Menu menu){
+    public boolean onPrepareOptionsMenu(Menu menu) {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
@@ -45,8 +45,8 @@ public class CategoryActivity extends AppCompatActivity implements PlaceholderTa
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.refresh:
                 cancelPlaceholderTask();
                 startPlaceholderTask();
@@ -59,41 +59,13 @@ public class CategoryActivity extends AppCompatActivity implements PlaceholderTa
         }
     }
 
-    @Override
-    public void doAction(int progress) {
-        jokesFragment.setProgressBar(progress);
-        jokesFragment.updateAdapter();
-    }
-
-    @Override
-    public void setUp() {
-        jokesFragment.setProgressBar(0);
-        jokesFragment.showProgressBar();
-    }
-
-    @Override
-    public void cleanUp(boolean result) {
-        jokesFragment.hideProgressBar();
-        if(result){
-            Toast.makeText(getApplicationContext(), R.string.download_success, Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(getApplicationContext(), R.string.download_error, Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public static class DataContainer {
         public static ArrayList<String> dataList = new ArrayList<>();
-        public static void addContent(String content){
-            if(content != null) {
-                dataList.add(content);
-            }
-        }
     }
 
     private void startPlaceholderTask() {
         Log.d(TAG, "Attemting to start AsyncTaskExample");
-        placeHolderTask = new PlaceholderTask(this);
+        placeHolderTask = new PlaceholderTask(getApplicationContext(), jokesFragment);
 
         Integer num = 100;
         Integer increment = 1;
@@ -101,8 +73,9 @@ public class CategoryActivity extends AppCompatActivity implements PlaceholderTa
         placeHolderTask.execute(num, increment, sleep);
         Log.d(TAG, "AsyncTask has been started");
     }
-    private void cancelPlaceholderTask(){
-        if(placeHolderTask != null){
+
+    private void cancelPlaceholderTask() {
+        if (placeHolderTask != null) {
             placeHolderTask.cancel(true);
         }
     }
