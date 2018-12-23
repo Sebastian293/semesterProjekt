@@ -1,4 +1,5 @@
 package srauhbaasch.chucks;
+
 import android.content.Context;
 import android.util.Log;
 
@@ -13,15 +14,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class VolleyToChuck  {
+public class VolleyToChuck {
+    private static final String TAG = "request";
     private static VolleyToChuck volleyInstance;
-    private Context context;
     private RequestQueue requestQueue;
 
     ////////////////////////////////////////////
 
     public static StringRequest addRequest(String url) {
-        return  new StringRequest(Request.Method.GET, "https://api.chucknorris.io/jokes/random?category="+url,
+        return new StringRequest(Request.Method.GET, "https://api.chucknorris.io/jokes/random?category=" + url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -43,25 +44,28 @@ public class VolleyToChuck  {
 
     /////////////////////////////////////////
 
-    private VolleyToChuck (Context context){
-        this.context = context;
-        requestQueue = getRequestQueue();
+    private VolleyToChuck(Context context) {
+        requestQueue = Volley.newRequestQueue(context.getApplicationContext());
     }
 
     private RequestQueue getRequestQueue() {
-        if(requestQueue == null){
-            requestQueue = Volley.newRequestQueue(context.getApplicationContext());
-        }
         return requestQueue;
     }
-    public void addToRequestQueue(Request request){
+   public void addToRequestQueue(Request request){
         getRequestQueue().add(request);
     }
 
-    public static synchronized VolleyToChuck getInstance(Context context){
+
+    public static synchronized VolleyToChuck getInstance(Context context) {
         if (volleyInstance == null) {
             volleyInstance = new VolleyToChuck(context);
         }
         return volleyInstance;
+    }
+
+    public void cancleAllRequests() {
+        if (requestQueue != null) {
+            requestQueue.cancelAll(TAG);
+        }
     }
 }

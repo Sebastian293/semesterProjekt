@@ -62,10 +62,10 @@ public class CategoryAdapter extends BaseAdapter{
             viewHolder.descriptionTV.setText(categoryList.get(position).getStringId());
             viewHolder.imageIV.setImageBitmap(ImageScaler.decodeSampledBitmapFromResource(context.getResources(), categoryList.get(position).getImageId(),55, 55));
         } catch (NoSuchFieldException e) {
-            viewHolder.descriptionTV.setText(R.string.notAvailable);
+            viewHolder.descriptionTV.setText(R.string.not_available);
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-            viewHolder.descriptionTV.setText(R.string.notAvailable);
+            viewHolder.descriptionTV.setText(R.string.not_available);
             e.printStackTrace();
         }
         convertView.setBackgroundColor(position % 2 == 0 ? Color.WHITE : Color.LTGRAY);

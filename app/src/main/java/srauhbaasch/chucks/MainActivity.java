@@ -70,14 +70,14 @@ public class MainActivity extends AppCompatActivity {
                                     JSONObject result = new JSONObject(response);
                                     mainPageJoke.setText(result.getString("value"));
                                 } catch (JSONException e) {
-                                    mainPageJoke.setText(R.string.JsonErrorMessage);
+                                    mainPageJoke.setText(R.string.json_error_message);
                                     e.printStackTrace();
                                 }
                             }
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        mainPageJoke.setText(R.string.volleyErrorMessage);
+                        mainPageJoke.setText(R.string.volley_error_message);
                     }
                 });
                 VolleyToChuck.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
@@ -101,14 +101,14 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject result = new JSONObject(response);
                             mainPageJoke.setText(result.getString("value"));
                         } catch (JSONException e) {
-                            mainPageJoke.setText(R.string.JsonErrorMessage);
+                            mainPageJoke.setText(R.string.json_error_message);
                             e.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mainPageJoke.setText(R.string.volleyErrorMessage);
+                mainPageJoke.setText(R.string.volley_error_message);
             }
         });
         queue.add(stringRequest);

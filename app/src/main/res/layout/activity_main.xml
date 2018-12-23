@@ -9,7 +9,7 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:contentDescription="@string/mainpageimage"
+        android:contentDescription="@string/main_page_image"
         android:src="@drawable/walker"
         android:scaleType = "centerCrop"/>
 

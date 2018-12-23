@@ -56,7 +56,7 @@ public class JokesFragment extends Fragment {
         final RequestQueue queue = Volley.newRequestQueue(getContext());
         CategoryActivity.DataContainer.dataList.clear();
 
-        String url = getString(R.string.default_URL) + "?category=" + selectedCategory;
+        String url = getString(R.string.default_url) + "?category=" + selectedCategory;
         Log.d("URL", url);
         if (selectedCategory != null) {
             JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
