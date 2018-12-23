@@ -15,7 +15,7 @@ public class Category {
         return R.string.class.getField(categoryName).getInt(null);
     }
 
-    public  String getCategoryName(){
+    public String getCategoryName() {
         return categoryName;
     }
 }

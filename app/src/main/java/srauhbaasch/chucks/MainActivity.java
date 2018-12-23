@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         final RequestQueue queue = Volley.newRequestQueue(this);
         final String url ="https://api.chucknorris.io/jokes/random";
 
-        buttonRefresh.setOnClickListener(new View.OnClickListener() {
+        /*buttonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -56,6 +55,32 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 queue.add(stringRequest);
+            }
+        });*/
+
+        buttonRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://api.chucknorris.io/jokes/random?category=dev",
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                                try {
+                                    JSONObject result = new JSONObject(response);
+                                    mainPageJoke.setText(result.getString("value"));
+                                } catch (JSONException e) {
+                                    mainPageJoke.setText(R.string.JsonErrorMessage);
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        mainPageJoke.setText(R.string.volleyErrorMessage);
+                    }
+                });
+                VolleyToChuck.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
             }
         });
 

@@ -1,31 +1,34 @@
 <resources>
     <string name="app_name">Chucks</string>
-    <string name="animals">Animals</string>
+    <string name="animal">Animals</string>
     <string name="career">Career</string>
-    <string name="developer">Developer</string>
+    <string name="dev">Developer</string>
     <string name="food">Food</string>
     <string name="history">History</string>
     <string name="money">Money</string>
     <string name="movie">Movie</string>
     <string name="music">Music</string>
-    <string name="politics">Politics</string>
+    <string name="political">Politics</string>
     <string name="religion">Religion</string>
     <string name="celebrity">Celebrities</string>
-    <string name="chuck2">Chuck Only</string>
+    <string name="explicit">Chuck Only</string>
     <string name="sport">Sport</string>
     <string name="travel">Travel</string>
     <string name="science">Science</string>
     <string name="fashion">Fashion</string>
-    <string name="notAvailable">Not Available</string>
+
+    <string name="not_available">Not Available</string>
     <string name="select_category">Select Category</string>
     <string name="refresh_joke">Get new random Joke</string>
+
     <string name="refresh">Refresh</string>
-    <string name="volleyErrorMessage">That didn\'t work!</string>
-    <string name="JsonErrorMessage">Error</string>
-    <string name="mainpageimage">mainPageImage</string>
+    <string name="volley_error_message">That didn\'t work!</string>
+    <string name="json_error_message">Error</string>
+    <string name="main_page_image">mainPageImage</string>
     <string name="categories">Categories</string>
     <string name="download_error">Download cancelled!</string>
     <string name="download_success">The Download was successful!</string>
     <string name="cancel">Cancel</string>
-    <string name="default_URL">https://api.chucknorris.io/jokes/random</string>
+    <string name="default_url">https://api.chucknorris.io/jokes/random</string>
+    <string name="datalist_error_message">Data couldn\'t be loaded!</string>
 </resources>
