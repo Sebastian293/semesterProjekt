@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -31,6 +30,7 @@ public class CategoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        VolleyToChuck.getInstance(getApplicationContext()).cancelAllRequests();
         cancelPlaceholderTask();
     }
 
@@ -48,10 +48,12 @@ public class CategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.refresh:
+                VolleyToChuck.getInstance(getApplicationContext()).cancelAllRequests();
                 cancelPlaceholderTask();
                 startPlaceholderTask();
                 return true;
             case R.id.cancel:
+                VolleyToChuck.getInstance(getApplicationContext()).cancelAllRequests();
                 cancelPlaceholderTask();
                 return true;
             default:

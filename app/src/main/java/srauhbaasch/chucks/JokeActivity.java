@@ -22,6 +22,7 @@ public class JokeActivity extends AppCompatActivity{
     @Override
     protected void onStop() {
         super.onStop();
+        VolleyToChuck.getInstance(getApplicationContext()).cancelAllRequests();
         cancelPlaceholderTask();
     }
 
@@ -35,10 +36,12 @@ public class JokeActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.refresh:
+                VolleyToChuck.getInstance(getApplicationContext()).cancelAllRequests();
                 cancelPlaceholderTask();
                 startPlaceholderTask();
                 return true;
             case R.id.cancel:
+                VolleyToChuck.getInstance(getApplicationContext()).cancelAllRequests();
                 cancelPlaceholderTask();
                 return true;
             default:

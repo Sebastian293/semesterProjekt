@@ -2,6 +2,8 @@ package srauhbaasch.chucks;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,11 +13,10 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,15 +24,17 @@ import org.json.JSONObject;
 public class JokesFragment extends Fragment {
     private JokesAdapter jokesAdapter;
     private String selectedCategory;
+    private ProgressBar progressBar;
 
     public JokesFragment() {
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_jokes, container, false);
 
+        progressBar = view.findViewById(R.id.progressBar);
         ListView jokesListView = view.findViewById(R.id.jokeListView);
 
         jokesAdapter = new JokesAdapter(getActivity(), CategoryActivity.DataContainer.dataList);
@@ -45,17 +48,14 @@ public class JokesFragment extends Fragment {
     }
 
     public ProgressBar getProgressBar() {
-        return getView().findViewById(R.id.progressBar);
+        return progressBar;
     }
 
     public void setSelectedCategory(String category) {
         this.selectedCategory = category;
     }
 
-    public void addRequests() {
-        final RequestQueue queue = Volley.newRequestQueue(getContext());
-        CategoryActivity.DataContainer.dataList.clear();
-
+    public JsonObjectRequest createRequests() {
         String url = getString(R.string.default_url) + "?category=" + selectedCategory;
         Log.d("URL", url);
         if (selectedCategory != null) {
@@ -70,21 +70,31 @@ public class JokesFragment extends Fragment {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Log.d("Response.JSON.ERROR", e.getMessage());
+                                e.printStackTrace();
                             }
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.d("Error.Response", error.getMessage());
+                            Log.d("Response.Error", error.getMessage());
+                            error.printStackTrace();
                         }
                     });
-            for (int i = 0; i < 100; i++) {
-                queue.add(getRequest);
-            }
+
+            getRequest.setTag(VolleyToChuck.TAG);
+            return getRequest;
         }
+        return null;
+    }
 
-
+    public void addRequests(){
+        VolleyToChuck.getInstance(getContext()).cancelAllRequests();
+        CategoryActivity.DataContainer.dataList.clear();
+        updateAdapter();
+        for (int i = 0; i < 100; i++) {
+            VolleyToChuck.getInstance(getContext()).addToRequestQueue(createRequests());
+        }
     }
 }
 

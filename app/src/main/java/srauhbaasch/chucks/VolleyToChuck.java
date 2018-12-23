@@ -5,22 +5,16 @@ import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 public class VolleyToChuck {
-    private static final String TAG = "request";
+    public static final String TAG = "request";
     private static VolleyToChuck volleyInstance;
     private RequestQueue requestQueue;
 
     ////////////////////////////////////////////
-
+/*
     public static StringRequest addRequest(String url) {
         return new StringRequest(Request.Method.GET, "https://api.chucknorris.io/jokes/random?category=" + url,
                 new Response.Listener<String>() {
@@ -41,18 +35,18 @@ public class VolleyToChuck {
             }
         });
     }
-
+*/
     /////////////////////////////////////////
 
     private VolleyToChuck(Context context) {
         requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+        Log.d("Request", requestQueue.toString());
     }
 
-    private RequestQueue getRequestQueue() {
-        return requestQueue;
-    }
-   public void addToRequestQueue(Request request){
-        getRequestQueue().add(request);
+    public void addToRequestQueue(Request request) {
+        if (requestQueue != null) {
+            requestQueue.add(request);
+        }
     }
 
 
@@ -63,9 +57,10 @@ public class VolleyToChuck {
         return volleyInstance;
     }
 
-    public void cancleAllRequests() {
+    public void cancelAllRequests() {
         if (requestQueue != null) {
-            requestQueue.cancelAll(TAG);
+            Log.d("Request", requestQueue.toString());
+            requestQueue.cancelAll(VolleyToChuck.TAG);
         }
     }
 }
