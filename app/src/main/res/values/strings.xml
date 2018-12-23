@@ -27,4 +27,5 @@
     <string name="download_error">Download cancelled!</string>
     <string name="download_success">The Download was successful!</string>
     <string name="cancel">Cancel</string>
+    <string name="default_URL">https://api.chucknorris.io/jokes/random</string>
 </resources>

@@ -62,7 +62,8 @@ public class CategoriesFragment extends Fragment {
                     startActivity(openJokes);
                 } else {
                     if(fragmentToUpdate != null && fragmentToUpdate.getClass() == JokesFragment.class){
-                        ((JokesFragment)fragmentToUpdate).updateAdapter();
+                        ((JokesFragment)fragmentToUpdate).setSelectedCategory(((Category)parent.getItemAtPosition(position)).getCategoryName());
+                        ((JokesFragment)fragmentToUpdate).addRequests();
                     }
                 }
             }
