@@ -1,6 +1,7 @@
 package srauhbaasch.chucks;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,8 @@ public class JokesAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.jokeTextView.setText(dataList.get(position));
+
+        convertView.setBackgroundColor(position % 2 == 0 ? Color.WHITE : Color.LTGRAY);
 
         return convertView;
     }

@@ -26,6 +26,7 @@ public class CategoryActivity extends AppCompatActivity {
             jokesFragment = (JokesFragment) getSupportFragmentManager().findFragmentById(R.id.jokeFragment);
             jokesFragment.setTAG(CategoryActivity.TAG);
             categoryFragment.setFragmentToUpdate(jokesFragment);
+            categoryFragment.continueLoadData();
         }
     }
 

@@ -9,7 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-public class JokeActivity extends AppCompatActivity{
+public class JokeActivity extends AppCompatActivity {
     private static final String TAG = "JokesActivity";
     private JokesFragment jokesFragment;
     private PlaceholderTask placeHolderTask;
@@ -23,10 +23,10 @@ public class JokeActivity extends AppCompatActivity{
         Intent intent = getIntent();
         selectedCategory = intent.getStringExtra("SELECTED_CATEGORY");
 
-        jokesFragment =(JokesFragment) getSupportFragmentManager().findFragmentById(R.id.jokeFragment);
+        jokesFragment = (JokesFragment) getSupportFragmentManager().findFragmentById(R.id.jokeFragment);
 
         boolean createNewList = true;
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             selectedCategory = savedInstanceState.getString("SELECTED_CATEGORY");
             createNewList = false;
         }
@@ -53,8 +53,8 @@ public class JokeActivity extends AppCompatActivity{
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.refresh:
                 VolleyToChuck.getInstance(getApplicationContext()).cancelAllRequests(JokeActivity.TAG);
                 cancelTask();
@@ -69,6 +69,7 @@ public class JokeActivity extends AppCompatActivity{
                 return super.onOptionsItemSelected(item);
         }
     }
+
     private void startPlaceholderTask() {
         Log.d(TAG, "Attempting to start AsyncTaskExample");
 
@@ -81,14 +82,14 @@ public class JokeActivity extends AppCompatActivity{
         Log.d(TAG, "AsyncTask has been started");
     }
 
-    private void cancelTask(){
-        if(placeHolderTask != null){
+    private void cancelTask() {
+        if (placeHolderTask != null) {
             placeHolderTask.cancel(true);
         }
     }
 
-    private void hideProgressBar(){
-        if(jokesFragment != null){
+    private void hideProgressBar() {
+        if (jokesFragment != null) {
             jokesFragment.getProgressBar().setVisibility(View.GONE);
         }
     }
@@ -96,6 +97,9 @@ public class JokeActivity extends AppCompatActivity{
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putString("SELECTED_CATEGORY", selectedCategory);
+
+        if (selectedCategory != null) {
+            savedInstanceState.putString("SELECTED_CATEGORY", selectedCategory);
+        }
     }
 }
