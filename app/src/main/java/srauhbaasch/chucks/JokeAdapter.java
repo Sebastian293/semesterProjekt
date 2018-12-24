@@ -11,12 +11,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-public class JokesAdapter extends BaseAdapter {
+public class JokeAdapter extends BaseAdapter {
     private ArrayList<String> dataList;
     private Context context;
 
 
-    public JokesAdapter(Context context, ArrayList<String> dataList){
+    public JokeAdapter(Context context, ArrayList<String> dataList){
         this.dataList = dataList;
         this.context = context;
     }

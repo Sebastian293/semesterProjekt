@@ -14,15 +14,15 @@ public class PlaceholderTask extends AsyncTask<Integer, String, Boolean> {
 
     private static final String TAG = "AsyncTaskExample";
     private WeakReference<Context> context;
-    private WeakReference<JokesFragment> jokesFragment;
+    private WeakReference<JokeFragment> jokesFragment;
     private WeakReference<ProgressBar> progressBar;
     private int count;
 
 
-    public PlaceholderTask(Context context, JokesFragment jokesFragment) {
+    public PlaceholderTask(Context context, JokeFragment jokeFragment) {
         this.context = new WeakReference<>(context);
-        this.jokesFragment = new WeakReference<>(jokesFragment);
-        this.progressBar = new WeakReference<>(jokesFragment.getProgressBar());
+        this.jokesFragment = new WeakReference<>(jokeFragment);
+        this.progressBar = new WeakReference<>(jokeFragment.getProgressBar());
     }
 
     @Override

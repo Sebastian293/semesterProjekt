@@ -22,14 +22,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class JokesFragment extends Fragment {
-    private JokesAdapter jokesAdapter;
+public class JokeFragment extends Fragment {
+    private JokeAdapter jokesAdapter;
     private Object TAG;
     private String selectedCategory;
     private ProgressBar progressBar;
     private int counter;
 
-    public JokesFragment() {
+    public JokeFragment() {
     }
 
     @Nullable
@@ -42,7 +42,7 @@ public class JokesFragment extends Fragment {
 
         ListView jokesListView = view.findViewById(R.id.jokeListView);
 
-        jokesAdapter = new JokesAdapter(getActivity(), CategoryActivity.DataContainer.dataList);
+        jokesAdapter = new JokeAdapter(getActivity(), CategoryActivity.DataContainer.dataList);
         jokesListView.setAdapter(jokesAdapter);
 
         return view;

@@ -9,7 +9,7 @@
     android:paddingLeft="2dp"
     android:paddingRight="2dp"
     android:paddingTop="2dp"
-    tools:context=".JokesFragment">
+    tools:context=".JokeFragment">
 
     <ListView
         android:id="@+id/jokeListView"

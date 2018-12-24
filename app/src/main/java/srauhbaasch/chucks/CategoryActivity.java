@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class CategoryActivity extends AppCompatActivity {
     private static String TAG = "Category";
-    private JokesFragment jokesFragment;
+    private JokeFragment jokeFragment;
     private PlaceholderTask placeHolderTask;
 
     @Override
@@ -21,11 +21,11 @@ public class CategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
-        CategoriesFragment categoryFragment = (CategoriesFragment) getSupportFragmentManager().findFragmentById(R.id.categoryFragment);
+        CategoryFragment categoryFragment = (CategoryFragment) getSupportFragmentManager().findFragmentById(R.id.categoryFragment);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            jokesFragment = (JokesFragment) getSupportFragmentManager().findFragmentById(R.id.jokeFragment);
-            jokesFragment.setTAG(CategoryActivity.TAG);
-            categoryFragment.setFragmentToUpdate(jokesFragment);
+            jokeFragment = (JokeFragment) getSupportFragmentManager().findFragmentById(R.id.jokeFragment);
+            jokeFragment.setTAG(CategoryActivity.TAG);
+            categoryFragment.setFragmentToUpdate(jokeFragment);
             categoryFragment.continueLoadData();
         }
     }
@@ -72,7 +72,7 @@ public class CategoryActivity extends AppCompatActivity {
 
     private void startPlaceholderTask() {
         Log.d(TAG, "Attemting to start AsyncTaskExample");
-        placeHolderTask = new PlaceholderTask(getApplicationContext(), jokesFragment);
+        placeHolderTask = new PlaceholderTask(getApplicationContext(), jokeFragment);
 
         Integer num = 100;
         Integer increment = 1;
@@ -88,8 +88,8 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void hideProgressBar(){
-        if(jokesFragment != null){
-            jokesFragment.getProgressBar().setVisibility(View.GONE);
+        if(jokeFragment != null){
+            jokeFragment.getProgressBar().setVisibility(View.GONE);
         }
     }
 }

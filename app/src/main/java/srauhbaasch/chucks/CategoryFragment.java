@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriesFragment extends Fragment {
+public class CategoryFragment extends Fragment {
     private Fragment fragmentToUpdate;
     private String selectedCategory;
 
-    public CategoriesFragment() {
+    public CategoryFragment() {
 
     }
 
@@ -63,10 +62,10 @@ public class CategoriesFragment extends Fragment {
                     openJokes.putExtra("SELECTED_CATEGORY", selectedCategory);
                     startActivity(openJokes);
                 } else {
-                    if (fragmentToUpdate != null && fragmentToUpdate.getClass() == JokesFragment.class) {
+                    if (fragmentToUpdate != null && fragmentToUpdate.getClass() == JokeFragment.class) {
 
-                        ((JokesFragment) fragmentToUpdate).setSelectedCategory(selectedCategory);
-                        ((JokesFragment) fragmentToUpdate).addRequests(true);
+                        ((JokeFragment) fragmentToUpdate).setSelectedCategory(selectedCategory);
+                        ((JokeFragment) fragmentToUpdate).addRequests(true);
                     }
                 }
             }
@@ -82,8 +81,8 @@ public class CategoriesFragment extends Fragment {
 
     public void continueLoadData() {
         if (selectedCategory != null && fragmentToUpdate != null) {
-            ((JokesFragment) fragmentToUpdate).setSelectedCategory(selectedCategory);
-            ((JokesFragment) fragmentToUpdate).addRequests(false);
+            ((JokeFragment) fragmentToUpdate).setSelectedCategory(selectedCategory);
+            ((JokeFragment) fragmentToUpdate).addRequests(false);
         }
     }
 

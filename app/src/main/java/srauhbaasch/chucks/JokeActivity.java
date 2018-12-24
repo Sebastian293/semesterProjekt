@@ -11,7 +11,7 @@ import android.view.View;
 
 public class JokeActivity extends AppCompatActivity {
     private static final String TAG = "JokesActivity";
-    private JokesFragment jokesFragment;
+    private JokeFragment jokeFragment;
     private PlaceholderTask placeHolderTask;
     private String selectedCategory;
 
@@ -23,7 +23,7 @@ public class JokeActivity extends AppCompatActivity {
         Intent intent = getIntent();
         selectedCategory = intent.getStringExtra("SELECTED_CATEGORY");
 
-        jokesFragment = (JokesFragment) getSupportFragmentManager().findFragmentById(R.id.jokeFragment);
+        jokeFragment = (JokeFragment) getSupportFragmentManager().findFragmentById(R.id.jokeFragment);
 
         boolean createNewList = true;
         if (savedInstanceState != null) {
@@ -31,9 +31,9 @@ public class JokeActivity extends AppCompatActivity {
             createNewList = false;
         }
 
-        jokesFragment.setSelectedCategory(selectedCategory);
-        jokesFragment.setTAG(JokeActivity.TAG);
-        jokesFragment.addRequests(createNewList);
+        jokeFragment.setSelectedCategory(selectedCategory);
+        jokeFragment.setTAG(JokeActivity.TAG);
+        jokeFragment.addRequests(createNewList);
 
         //startPlaceholderTask();
     }
@@ -73,7 +73,7 @@ public class JokeActivity extends AppCompatActivity {
     private void startPlaceholderTask() {
         Log.d(TAG, "Attempting to start AsyncTaskExample");
 
-        placeHolderTask = new PlaceholderTask(getApplicationContext(), jokesFragment);
+        placeHolderTask = new PlaceholderTask(getApplicationContext(), jokeFragment);
 
         Integer num = 100;
         Integer increment = 1;
@@ -89,8 +89,8 @@ public class JokeActivity extends AppCompatActivity {
     }
 
     private void hideProgressBar() {
-        if (jokesFragment != null) {
-            jokesFragment.getProgressBar().setVisibility(View.GONE);
+        if (jokeFragment != null) {
+            jokeFragment.getProgressBar().setVisibility(View.GONE);
         }
     }
 
