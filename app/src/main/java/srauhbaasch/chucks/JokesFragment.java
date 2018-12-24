@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 
@@ -23,8 +24,10 @@ import org.json.JSONObject;
 
 public class JokesFragment extends Fragment {
     private JokesAdapter jokesAdapter;
+    private Object TAG;
     private String selectedCategory;
     private ProgressBar progressBar;
+    private int counter;
 
     public JokesFragment() {
     }
@@ -35,6 +38,8 @@ public class JokesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_jokes, container, false);
 
         progressBar = view.findViewById(R.id.progressBar);
+        progressBar.setMax(100);
+
         ListView jokesListView = view.findViewById(R.id.jokeListView);
 
         jokesAdapter = new JokesAdapter(getActivity(), CategoryActivity.DataContainer.dataList);
@@ -55,44 +60,88 @@ public class JokesFragment extends Fragment {
         this.selectedCategory = category;
     }
 
-    public JsonObjectRequest createRequests() {
-        String url = getString(R.string.default_url) + "?category=" + selectedCategory;
-        Log.d("URL", url);
-        if (selectedCategory != null) {
-            JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-                                Log.d("Response", response.getString("value"));
-                                CategoryActivity.DataContainer.dataList.add(response.getString("value"));
-                                updateAdapter();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.d("Response.JSON.ERROR", e.getMessage());
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("Response.Error", error.getMessage());
-                            error.printStackTrace();
-                        }
-                    });
-
-            getRequest.setTag(VolleyToChuck.TAG);
-            return getRequest;
-        }
-        return null;
+    public void setTAG(Object tag) {
+        this.TAG = tag;
     }
 
-    public void addRequests(){
-        VolleyToChuck.getInstance(getContext()).cancelAllRequests();
-        CategoryActivity.DataContainer.dataList.clear();
+    public JsonObjectRequest createRequests() {
+        String url = getString(R.string.default_url) + "?category=" + selectedCategory;
+
+
+        if (selectedCategory == null) {
+            selectedCategory = "";
+        }
+        Log.d("URL", url);
+        final long startTime = System.currentTimeMillis();
+
+        JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Log.d("Response", String.format("Time: %d", System.currentTimeMillis() - startTime));
+                            CategoryActivity.DataContainer.dataList.add(response.getString("value"));
+                            Log.d("Response", String.format("Time: %d", System.currentTimeMillis() - startTime));
+                        } catch (JSONException e) {
+                            Log.d("Response.JSON.ERROR", e.getMessage());
+                            e.printStackTrace();
+                        }
+                        counter++;
+                        updateAdapter();
+                        setProgressBar();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Response.Error", error.toString());
+                        Log.d("Response", String.format("Time: %d", System.currentTimeMillis() - startTime));
+                        error.printStackTrace();
+                        counter++;
+                        setProgressBar();
+                        Toast.makeText(getContext(), "Request " + counter + " failed.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        if (TAG != null) {
+            getRequest.setTag(TAG);
+        } else {
+            getRequest.setTag(VolleyToChuck.TAG);
+        }
+        return getRequest;
+    }
+
+    private void setProgressBar() {
+        progressBar.setProgress(counter);
+        if (counter >= 100) {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    private boolean checkIfDataContainerIsFull(){
+
+        return false;
+    }
+
+    public void addRequests(boolean createNewList) {
+        if (createNewList) {
+            VolleyToChuck.getInstance(getContext()).cancelAllRequests(TAG);
+            CategoryActivity.DataContainer.dataList.clear();
+        }
+
+        counter = CategoryActivity.DataContainer.dataList.size();
+        progressBar.setProgress(counter);
+
+        Log.d("Add", "Add with coubter = " + counter);
+        if(counter >= 100){
+            return;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
         updateAdapter();
-        for (int i = 0; i < 100; i++) {
+
+        Log.d("Cancel", "starte request");
+        for (int i = counter; i < 100; i++) {
             VolleyToChuck.getInstance(getContext()).addToRequestQueue(createRequests());
         }
     }

@@ -28,7 +28,6 @@ public class PlaceholderTask extends AsyncTask<Integer, String, Boolean> {
     @Override
     public void onPreExecute() {
         if(progressBar.get() != null) {
-            progressBar.get().setMax(100);
             progressBar.get().setProgress(0);
         }
     }

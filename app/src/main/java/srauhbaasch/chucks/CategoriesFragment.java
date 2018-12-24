@@ -58,13 +58,13 @@ public class CategoriesFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                     Intent openJokes = new Intent(getActivity(), JokeActivity.class);
-                    openJokes.putExtra("DEVELOPER_ARRAY", CategoryActivity.DataContainer.dataList);
+                    openJokes.putExtra("SELECTED_CATEGORY", ((Category)parent.getItemAtPosition(position)).getCategoryName());
                     startActivity(openJokes);
                 } else {
                     if(fragmentToUpdate != null && fragmentToUpdate.getClass() == JokesFragment.class){
 
                         ((JokesFragment)fragmentToUpdate).setSelectedCategory(((Category)parent.getItemAtPosition(position)).getCategoryName());
-                        ((JokesFragment)fragmentToUpdate).addRequests();
+                        ((JokesFragment)fragmentToUpdate).addRequests(true);
 
                         //VolleyToChuck.getInstance(getContext()).addToRequestQueue(VolleyToChuck.addRequest(((Category)parent.getItemAtPosition(position)).getCategoryName()));
 

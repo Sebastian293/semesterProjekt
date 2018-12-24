@@ -12,31 +12,7 @@ public class VolleyToChuck {
     public static final String TAG = "request";
     private static VolleyToChuck volleyInstance;
     private RequestQueue requestQueue;
-
-    ////////////////////////////////////////////
-/*
-    public static StringRequest addRequest(String url) {
-        return new StringRequest(Request.Method.GET, "https://api.chucknorris.io/jokes/random?category=" + url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        try {
-                            JSONObject result = new JSONObject(response);
-                            CategoryActivity.DataContainer.dataList.add(result.getString("value"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("oh my god", error.getMessage());
-            }
-        });
-    }
-*/
-    /////////////////////////////////////////
+    private int counter;
 
     private VolleyToChuck(Context context) {
         requestQueue = Volley.newRequestQueue(context.getApplicationContext());
@@ -47,6 +23,8 @@ public class VolleyToChuck {
         if (requestQueue != null) {
             requestQueue.add(request);
         }
+        ;
+        Log.d("Add", "request added");
     }
 
 
@@ -57,10 +35,21 @@ public class VolleyToChuck {
         return volleyInstance;
     }
 
-    public void cancelAllRequests() {
+    public void cancelAllRequests(final Object tag) {
         if (requestQueue != null) {
-            Log.d("Request", requestQueue.toString());
+            if (tag != null)
+                requestQueue.cancelAll(new RequestQueue.RequestFilter() {
+                    @Override
+                    public boolean apply(Request<?> request) {
+                        if (tag.equals(request.getTag())) {
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+        } else {
             requestQueue.cancelAll(VolleyToChuck.TAG);
         }
     }
+
 }
