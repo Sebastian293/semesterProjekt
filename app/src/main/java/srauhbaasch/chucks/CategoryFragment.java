@@ -4,6 +4,7 @@ package srauhbaasch.chucks;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +28,8 @@ public class CategoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_categogies, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_category, container, false);
 
         ListView categoryListView = view.findViewById(R.id.category_list);
 
@@ -65,7 +66,7 @@ public class CategoryFragment extends Fragment {
                     if (fragmentToUpdate != null && fragmentToUpdate.getClass() == JokeFragment.class) {
 
                         ((JokeFragment) fragmentToUpdate).setSelectedCategory(selectedCategory);
-                        ((JokeFragment) fragmentToUpdate).addRequests(true);
+                        ((JokeFragment) fragmentToUpdate).addRequests(CategoryActivity.TAG, true);
                     }
                 }
             }
@@ -82,12 +83,12 @@ public class CategoryFragment extends Fragment {
     public void continueLoadData() {
         if (selectedCategory != null && fragmentToUpdate != null) {
             ((JokeFragment) fragmentToUpdate).setSelectedCategory(selectedCategory);
-            ((JokeFragment) fragmentToUpdate).addRequests(false);
+            ((JokeFragment) fragmentToUpdate).addRequests(CategoryActivity.TAG, false);
         }
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
+    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
 
         if (selectedCategory != null) {

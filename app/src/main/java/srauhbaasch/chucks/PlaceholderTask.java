@@ -34,14 +34,15 @@ public class PlaceholderTask extends AsyncTask<Integer, String, Boolean> {
 
     @Override
     protected Boolean doInBackground(Integer... listParameter) {
-        CategoryActivity.DataContainer.dataList.clear();
-        for (int i = 0; i <= listParameter[0]; i += listParameter[1]) {
+        //CategoryActivity.DataContainer.dataList.clear();
+        count = listParameter[1];
+        for (int i = listParameter[1]; i <= listParameter[0]; i += listParameter[2]) {
             if (isCancelled()) {
                 return false;
             }
             //progress = listParameter[0] * 100 / listParameter[1];
             publishProgress("Testjoke " + i);
-            SystemClock.sleep(listParameter[2]);
+            SystemClock.sleep(listParameter[3]);
         }
         return true;
     }

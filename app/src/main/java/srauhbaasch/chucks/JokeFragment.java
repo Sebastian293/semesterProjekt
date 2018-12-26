@@ -1,7 +1,9 @@
 package srauhbaasch.chucks;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,10 +26,13 @@ import org.json.JSONObject;
 
 public class JokeFragment extends Fragment {
     private JokeAdapter jokesAdapter;
-    private Object TAG;
+    //private Object TAG;
+
     private String selectedCategory;
     private ProgressBar progressBar;
-    private int counter;
+    private PlaceholderTask placeHolderTask;
+    private int counter = 0;
+    private int maxElements;
 
     public JokeFragment() {
     }
@@ -35,10 +40,13 @@ public class JokeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_jokes, container, false);
+        View view = inflater.inflate(R.layout.fragment_joke, container, false);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        maxElements = sharedPreferences.getInt(getString(R.string.max_entries), 100);
 
         progressBar = view.findViewById(R.id.progressBar);
-        progressBar.setMax(100);
+        progressBar.setMax(maxElements);
 
         ListView jokesListView = view.findViewById(R.id.jokeListView);
 
@@ -60,11 +68,19 @@ public class JokeFragment extends Fragment {
         this.selectedCategory = category;
     }
 
-    public void setTAG(Object tag) {
-        this.TAG = tag;
+    private void startPlaceholderTask(String tag) {
+        Log.d(tag, "Attempting to start AsyncTaskExample");
+        placeHolderTask = new PlaceholderTask(getContext(), this);
+
+        Integer num = PreferenceManager.getDefaultSharedPreferences(getContext()).getInt(getString(R.string.max_entries), 100);
+        Integer start = counter;
+        Integer increment = 1;
+        Integer sleep = 200;
+        placeHolderTask.execute(num, start, increment, sleep);
+        Log.d(tag, "AsyncTask has been started");
     }
 
-    public JsonObjectRequest createRequests() {
+    private JsonObjectRequest createRequests(String tag) {
         String url = getString(R.string.default_url) + "?category=" + selectedCategory;
 
 
@@ -80,14 +96,19 @@ public class JokeFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             Log.d("Response", String.format("Time: %d", System.currentTimeMillis() - startTime));
-                            CategoryActivity.DataContainer.dataList.add(response.getString("value"));
+                            String newName = PreferenceManager.getDefaultSharedPreferences(getContext()).getString(getString(R.string.personal_name), null);
+                            if(newName != null){
+                                CategoryActivity.DataContainer.dataList.add(response.getString("value").replace("Chuck Norris", newName));
+                            }else{
+                                CategoryActivity.DataContainer.dataList.add(response.getString("value"));
+                            }
+                            updateAdapter();
                             Log.d("Response", String.format("Time: %d", System.currentTimeMillis() - startTime));
                         } catch (JSONException e) {
                             Log.d("Response.JSON.ERROR", e.getMessage());
                             e.printStackTrace();
                         }
                         counter++;
-                        updateAdapter();
                         setProgressBar();
                     }
                 },
@@ -103,8 +124,8 @@ public class JokeFragment extends Fragment {
                     }
                 });
 
-        if (TAG != null) {
-            getRequest.setTag(TAG);
+        if (tag != null) {
+            getRequest.setTag(tag);
         } else {
             getRequest.setTag(VolleyToChuck.TAG);
         }
@@ -113,37 +134,56 @@ public class JokeFragment extends Fragment {
 
     private void setProgressBar() {
         progressBar.setProgress(counter);
-        if (counter >= 100) {
+        if (counter >= maxElements) {
             progressBar.setVisibility(View.GONE);
         }
     }
 
-    private boolean checkIfDataContainerIsFull(){
+    public void addRequests(String tag, boolean createNewList) {
+        boolean loadSyntheticData = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(getString(R.string.load_synthetic_data), false);
+        cancelTask(tag);
 
-        return false;
-    }
+        if(!InternetConnectionService.hasConnection(getContext())){
+            Toast.makeText(getContext(), R.string.no_internet_message, Toast.LENGTH_LONG).show();
+            return;
+        }
 
-    public void addRequests(boolean createNewList) {
         if (createNewList) {
-            VolleyToChuck.getInstance(getContext()).cancelAllRequests(TAG);
             CategoryActivity.DataContainer.dataList.clear();
+            updateAdapter();
         }
 
         counter = CategoryActivity.DataContainer.dataList.size();
         progressBar.setProgress(counter);
 
-        Log.d("Add", "Add with coubter = " + counter);
-        if(counter >= 100){
+        if (counter >= maxElements) {
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
-        updateAdapter();
-
-        Log.d("Cancel", "starte request");
-        for (int i = counter; i < 100; i++) {
-            VolleyToChuck.getInstance(getContext()).addToRequestQueue(createRequests());
+        if (loadSyntheticData) {
+            startPlaceholderTask(tag);
+        } else {
+            addJSONRequests(tag);
         }
+
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void addJSONRequests(String tag) {
+        for (int i = counter; i < maxElements; i++) {
+            VolleyToChuck.getInstance(getContext()).addToRequestQueue(createRequests(tag));
+        }
+    }
+
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    public void cancelTask(String tag) {
+        if (placeHolderTask != null) {
+            placeHolderTask.cancel(true);
+        }
+        VolleyToChuck.getInstance(getContext()).cancelAllRequests(tag);
     }
 }
 

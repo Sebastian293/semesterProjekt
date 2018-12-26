@@ -4,10 +4,7 @@
         xmls:id="@+id/refresh"
         xmls:title="@string/refresh" />
     <item
-        xmls:id="@+id/cancel"
-        xmls:title="@string/cancel" />
-    <item
-    xmls:id="@+id/options"
-    xmls:title="@string/options" />
+        xmls:id="@+id/options"
+        xmls:title="@string/options" />
 
 </menu>

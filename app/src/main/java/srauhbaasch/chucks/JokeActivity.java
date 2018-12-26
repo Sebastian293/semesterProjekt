@@ -1,6 +1,7 @@
 package srauhbaasch.chucks;
 
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,8 +13,8 @@ import android.view.View;
 public class JokeActivity extends AppCompatActivity {
     private static final String TAG = "JokesActivity";
     private JokeFragment jokeFragment;
-    private PlaceholderTask placeHolderTask;
     private String selectedCategory;
+    private boolean createNewList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,25 +26,29 @@ public class JokeActivity extends AppCompatActivity {
 
         jokeFragment = (JokeFragment) getSupportFragmentManager().findFragmentById(R.id.jokeFragment);
 
-        boolean createNewList = true;
+        createNewList = true;
         if (savedInstanceState != null) {
             selectedCategory = savedInstanceState.getString("SELECTED_CATEGORY");
             createNewList = false;
         }
 
         jokeFragment.setSelectedCategory(selectedCategory);
-        jokeFragment.setTAG(JokeActivity.TAG);
-        jokeFragment.addRequests(createNewList);
+        //jokeFragment.setTAG(JokeActivity.TAG);
 
-        //startPlaceholderTask();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        jokeFragment.addRequests(JokeActivity.TAG, createNewList);
+        createNewList = false;
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        VolleyToChuck.getInstance(getApplicationContext()).cancelAllRequests(JokeActivity.TAG);
-        cancelTask();
-        hideProgressBar();
+        jokeFragment.cancelTask(JokeActivity.TAG);
+        jokeFragment.hideProgressBar();
     }
 
     @Override
@@ -56,41 +61,22 @@ public class JokeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.refresh:
-                VolleyToChuck.getInstance(getApplicationContext()).cancelAllRequests(JokeActivity.TAG);
-                cancelTask();
-                startPlaceholderTask();
+                jokeFragment.cancelTask(CategoryActivity.TAG);
+                jokeFragment.addRequests(JokeActivity.TAG, true);
                 return true;
+
             case R.id.cancel:
-                VolleyToChuck.getInstance(getApplicationContext()).cancelAllRequests(JokeActivity.TAG);
-                cancelTask();
-                hideProgressBar();
+                jokeFragment.cancelTask(JokeActivity.TAG);
+                jokeFragment.hideProgressBar();
                 return true;
+
+            case R.id.options:
+                Intent intent = new Intent(this, OptionActivity.class);
+                startActivity(intent);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void startPlaceholderTask() {
-        Log.d(TAG, "Attempting to start AsyncTaskExample");
-
-        placeHolderTask = new PlaceholderTask(getApplicationContext(), jokeFragment);
-
-        Integer num = 100;
-        Integer increment = 1;
-        Integer sleep = 200;
-        placeHolderTask.execute(num, increment, sleep);
-        Log.d(TAG, "AsyncTask has been started");
-    }
-
-    private void cancelTask() {
-        if (placeHolderTask != null) {
-            placeHolderTask.cancel(true);
-        }
-    }
-
-    private void hideProgressBar() {
-        if (jokeFragment != null) {
-            jokeFragment.getProgressBar().setVisibility(View.GONE);
         }
     }
 

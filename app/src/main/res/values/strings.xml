@@ -31,4 +31,13 @@
     <string name="cancel">Cancel</string>
     <string name="default_url">https://api.chucknorris.io/jokes/random</string>
     <string name="datalist_error_message">Data couldn\'t be loaded!</string>
+    <string name="info_select_number_of_jokes">Select the number of jokes to load.</string>
+    <string name="load_synthetic_jokes">Load synthetic jokes?</string>
+    <string name="choose_name_for_content_of_jokes">Choose a name for the content of the jokes:</string>
+    <string name="hint_for_option_edit_view">Enter Name(default is Chuck Norris)</string>
+    <string name="load_synthetic_data">load synthetic data</string>
+    <string name="max_entries">max entries</string>
+    <string name="personal_name">personal name</string>
+    <string name="options">Options</string>
+    <string name="no_internet_message">Joke loading not possible. Try to reconnect with the internet.</string>
 </resources>
