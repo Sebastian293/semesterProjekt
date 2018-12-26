@@ -40,4 +40,5 @@
     <string name="personal_name">personal name</string>
     <string name="options">Options</string>
     <string name="no_internet_message">Joke loading not possible. Try to reconnect with the internet.</string>
+    <string name="save_name">Save name</string>
 </resources>
